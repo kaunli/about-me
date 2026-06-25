@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Designer & Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white:   #fcfcfc;
+    --blue:    #08b2e3;
+    --green:   #57a773;
+    --purple:  #484d6d;
+    --pink:    #ea638c;
+    --blue-lt: #d6f3fc;
+    --pink-lt: #fde8ef;
+    --green-lt:#e2f3e8;
+    --purple-lt:#ecedf5;
+    --ink:     #2a2d3e;
+    --ink-mid: #484d6d;
+    --ink-dim: #8d93b3;
+    --font-display: 'Playfair Display', serif;
+    --font-sans:    'Plus Jakarta Sans', sans-serif;
+    --font-body:    'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: var(--font-body);
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* ── CURSOR ── */
+  .cursor-ring {
+    position: fixed; width: 36px; height: 36px;
+    border: 2px solid var(--pink);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width .25s, height .25s, border-color .25s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-dot {
+    position: fixed; width: 7px; height: 7px;
+    background: var(--pink); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+  }
+  body:has(a:hover) .cursor-ring,
+  body:has(button:hover) .cursor-ring { width: 58px; height: 58px; border-color: var(--blue); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: rgba(252,252,252,.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(72,77,109,.08);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700; font-size: 1.2rem;
+    color: var(--ink); text-decoration: none;
+    letter-spacing: .02em;
+  }
+  .nav-logo span { color: var(--pink); font-style: italic; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-sans); font-size: .8rem;
+    font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-dim); text-decoration: none; transition: color .2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -5px; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--pink), var(--blue));
+    border-radius: 2px; transform: scaleX(0); transition: transform .25s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #fcfcfc 55%, #fde8ef 100%);
+  }
+
+  /* Blobs */
+  .blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); pointer-events: none; opacity: .45;
+  }
+  .blob-1 { width: 520px; height: 520px; background: var(--blue-lt); top: -100px; right: -80px; }
+  .blob-2 { width: 380px; height: 380px; background: var(--pink-lt); bottom: 0; left: -60px; }
+  .blob-3 { width: 260px; height: 260px; background: var(--green-lt); top: 40%; right: 30%; }
+
+  .hero-left { z-index: 1; }
+  .hero-eyebrow {
+    font-family: var(--font-sans); font-size: .75rem; font-weight: 700;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--pink); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: inline-block; width: 2rem; height: 2px;
+    background: linear-gradient(90deg, var(--pink), var(--blue));
+    border-radius: 2px;
+  }
+  h1.hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(3.2rem, 6.5vw, 6rem);
+    line-height: 1.06; color: var(--ink); margin-bottom: .6rem;
+  }
+  h1.hero-name em { font-style: italic; color: var(--blue); }
+  .hero-role {
+    font-family: var(--font-sans); font-size: clamp(.95rem, 1.6vw, 1.2rem);
+    font-weight: 400; color: var(--ink-dim); letter-spacing: .03em; margin-bottom: 2.5rem;
+  }
+  .hero-desc {
+    font-size: .95rem; line-height: 1.85; color: var(--ink-mid); max-width: 460px; margin-bottom: 3rem;
+  }
+  .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: .9rem 2.2rem;
+    background: linear-gradient(135deg, var(--pink), #d44b77);
+    color: #fff; border: none; border-radius: 100px;
+    font-family: var(--font-sans); font-size: .82rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+    transition: box-shadow .2s, transform .15s; display: inline-block;
+    box-shadow: 0 4px 20px rgba(234,99,140,.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(234,99,140,.4); }
+  .btn-outline {
+    padding: .9rem 2.2rem;
+    background: transparent; color: var(--blue);
+    border: 2px solid var(--blue); border-radius: 100px;
+    font-family: var(--font-sans); font-size: .82rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+    transition: background .2s, color .2s; display: inline-block;
+  }
+  .btn-outline:hover { background: var(--blue); color: #fff; }
+
+  /* ── HERO RIGHT — UI CRAFT GRAPHIC ── */
+  .hero-right {
+    z-index: 1; display: flex; justify-content: center; align-items: center;
+  }
+  .craft-wrap {
+    position: relative; width: 420px; height: 440px;
+  }
+
+  /* ---- Browser window (back, large) ---- */
+  .cw-browser {
+    position: absolute; top: 0; left: 0; width: 300px;
+    background: #fff; border-radius: 14px;
+    box-shadow: 0 16px 50px rgba(72,77,109,.15);
+    overflow: hidden;
+    animation: floatA 6s ease-in-out infinite;
+  }
+  .cw-browser-bar {
+    height: 32px; background: var(--purple-lt);
+    display: flex; align-items: center; padding: 0 12px; gap: 6px;
+  }
+  .cw-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .cw-dot-r { background: #f87171; }
+  .cw-dot-y { background: #fbbf24; }
+  .cw-dot-g { background: #34d399; }
+  .cw-url-bar {
+    flex: 1; height: 16px; background: #fff; border-radius: 4px; margin-left: 8px;
+    display: flex; align-items: center; padding: 0 8px;
+  }
+  .cw-url-text {
+    font-family: var(--font-sans); font-size: .52rem; color: var(--ink-dim); letter-spacing: .02em;
+  }
+  .cw-browser-body { padding: 14px; }
+
+  /* wireframe nav bar inside browser */
+  .wf-nav {
+    height: 18px; background: var(--blue-lt); border-radius: 4px;
+    display: flex; align-items: center; padding: 0 8px; gap: 6px; margin-bottom: 10px;
+  }
+  .wf-nav-dot { width: 28px; height: 6px; border-radius: 3px; background: rgba(8,178,227,.35); }
+  .wf-nav-dot.active { background: var(--blue); }
+
+  /* wireframe hero block */
+  .wf-hero-block {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;
+  }
+  .wf-text-lines { display: flex; flex-direction: column; gap: 5px; padding-top: 4px; }
+  .wf-line { height: 7px; border-radius: 3px; background: var(--purple-lt); }
+  .wf-line.w-80 { width: 80%; }
+  .wf-line.w-60 { width: 60%; }
+  .wf-line.w-90 { width: 90%; }
+  .wf-line.pink { background: rgba(234,99,140,.25); }
+  .wf-img-box {
+    background: linear-gradient(135deg, var(--pink-lt), var(--blue-lt));
+    border-radius: 6px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  /* wireframe card row */
+  .wf-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .wf-card {
+    background: var(--purple-lt); border-radius: 5px; padding: 6px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .wf-card-top { height: 24px; border-radius: 3px; background: linear-gradient(135deg,var(--blue-lt),var(--pink-lt)); }
+  .wf-card-line { height: 5px; border-radius: 2px; background: rgba(72,77,109,.15); }
+  .wf-card-line.w-70 { width: 70%; }
+
+  /* ---- Phone (right, floating) ---- */
+  .cw-phone {
+    position: absolute; bottom: 20px; right: 0; width: 115px;
+    background: var(--ink); border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(72,77,109,.25);
+    padding: 10px 6px;
+    animation: floatB 7s ease-in-out infinite;
+  }
+  .cw-phone-notch {
+    width: 40px; height: 8px; background: #1a1e2e;
+    border-radius: 4px; margin: 0 auto 8px;
+  }
+  .cw-phone-screen {
+    background: #fff; border-radius: 14px; overflow: hidden; padding: 8px;
+  }
+  .ph-status {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+  }
+  .ph-status-bar { width: 30px; height: 4px; border-radius: 2px; background: var(--blue-lt); }
+  .ph-time { font-family: var(--font-sans); font-size: .45rem; font-weight: 700; color: var(--ink-dim); }
+  .ph-hero-img {
+    background: linear-gradient(135deg, var(--pink-lt), var(--blue-lt));
+    border-radius: 8px; height: 44px; margin-bottom: 6px;
+    display: flex; align-items: center; justify-content: center; font-size: .9rem;
+  }
+  .ph-lines { display: flex; flex-direction: column; gap: 3px; margin-bottom: 6px; }
+  .ph-line { height: 4px; border-radius: 2px; background: var(--purple-lt); }
+  .ph-line.w-75 { width: 75%; }
+  .ph-btn {
+    background: var(--pink); border-radius: 4px; height: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ph-btn-label { font-family: var(--font-sans); font-size: .38rem; font-weight: 700; color: #fff; letter-spacing: .06em; }
+
+  /* ---- Code snippet card (top right) ---- */
+  .cw-code {
+    position: absolute; top: 20px; right: 0; width: 150px;
+    background: var(--ink); border-radius: 12px;
+    padding: 12px; box-shadow: 0 12px 36px rgba(72,77,109,.2);
+    animation: floatC 5s ease-in-out infinite;
+  }
+  .cw-code-header {
+    display: flex; align-items: center; gap: 5px; margin-bottom: 8px;
+  }
+  .cw-code-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .cw-code-dot.r { background: #f87171; }
+  .cw-code-dot.y { background: #fbbf24; }
+  .cw-code-dot.g { background: #34d399; }
+  .cw-code-lines { display: flex; flex-direction: column; gap: 4px; }
+  .cl { height: 5px; border-radius: 2px; }
+  .cl-pink  { background: rgba(234,99,140,.7); }
+  .cl-blue  { background: rgba(8,178,227,.7); }
+  .cl-green { background: rgba(87,167,115,.6); }
+  .cl-dim   { background: rgba(255,255,255,.12); }
+  .cl-w-50  { width: 50%; }
+  .cl-w-70  { width: 70%; }
+  .cl-w-85  { width: 85%; }
+  .cl-w-40  { width: 40%; }
+  .cl-indent { margin-left: 10px; }
+
+  /* ---- Floating badge chips ---- */
+  .cw-badge {
+    position: absolute;
+    padding: .3rem .9rem; border-radius: 100px;
+    font-family: var(--font-sans); font-size: .67rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(0,0,0,.1);
+  }
+  .cw-badge-1 { background: var(--pink); color: #fff; bottom: 120px; left: 10px; animation: floatA 5.5s ease-in-out infinite; }
+  .cw-badge-2 { background: var(--blue); color: #fff; bottom: 0; left: 120px; animation: floatB 7s ease-in-out infinite; }
+  .cw-badge-3 { background: var(--green-lt); color: var(--green); bottom: 80px; right: 125px; animation: floatC 6s ease-in-out infinite; }
+
+  @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+  @keyframes floatC { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(2deg)} }
+
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    font-family: var(--font-sans); font-size: .7rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-dim);
+  }
+  .scroll-hint-line {
+    width: 1px; height: 44px;
+    background: linear-gradient(to bottom, var(--pink), transparent);
+    animation: scrollLine 1.6s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* ── SECTIONS ── */
+  section { padding: 7rem 4rem; }
+  .section-eyebrow {
+    font-family: var(--font-sans); font-size: .72rem; font-weight: 700;
+    letter-spacing: .24em; text-transform: uppercase; color: var(--pink); margin-bottom: .9rem;
+  }
+  h2.section-title {
+    font-family: var(--font-display); font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    line-height: 1.12; color: var(--ink); margin-bottom: 1.5rem;
+  }
+  h2.section-title em { font-style: italic; color: var(--blue); }
+
+  /* ── ABOUT ── */
+  .about { background: #fff; }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 6rem; align-items: start; max-width: 1200px; margin: 0 auto;
+  }
+  .about-left { position: sticky; top: 7rem; }
+  .edu-cards { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .edu-card {
+    padding: 1.5rem; border-radius: 16px;
+    border: 1.5px solid rgba(72,77,109,.1);
+    background: var(--white);
+    box-shadow: 0 4px 20px rgba(72,77,109,.06);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .edu-card:hover { box-shadow: 0 8px 32px rgba(72,77,109,.12); transform: translateY(-2px); }
+  .edu-card .pill {
+    display: inline-block; padding: .2rem .75rem; border-radius: 100px;
+    font-family: var(--font-sans); font-size: .65rem; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; margin-bottom: .75rem;
+  }
+  .edu-card .pill-blue { background: var(--blue-lt); color: var(--blue); }
+  .edu-card .pill-pink { background: var(--pink-lt); color: var(--pink); }
+  .edu-card h4 { font-family: var(--font-sans); font-size: .95rem; font-weight: 700; color: var(--ink); margin-bottom: .3rem; }
+  .edu-card .school { font-family: var(--font-sans); font-size: .82rem; font-weight: 600; color: var(--blue); margin-bottom: .2rem; }
+  .edu-card p { font-size: .82rem; line-height: 1.7; color: var(--ink-dim); }
+
+  .about-paras p { font-size: .96rem; line-height: 1.9; color: var(--ink-mid); margin-bottom: 2rem; }
+  .about-paras strong { color: var(--ink); font-weight: 600; }
+  .about-highlight {
+    padding: 1.5rem 2rem; border-left: 3px solid var(--pink);
+    background: var(--pink-lt); border-radius: 0 12px 12px 0;
+    margin: 2.5rem 0; font-family: var(--font-display); font-style: italic;
+    font-size: 1.2rem; line-height: 1.65; color: var(--ink);
+  }
+
+  /* ── SKILLS ── */
+  .skills-section { background: var(--white); }
+  .skills-inner { max-width: 1200px; margin: 0 auto; }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.5rem; margin-top: 4rem;
+  }
+  .skill-card {
+    padding: 2rem; border-radius: 20px;
+    background: #fff;
+    border: 1.5px solid rgba(72,77,109,.1);
+    box-shadow: 0 4px 20px rgba(72,77,109,.05);
+    transition: transform .2s, box-shadow .2s;
+    position: relative; overflow: hidden;
+  }
+  .skill-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 20px 20px 0 0;
+    transform: scaleX(0); transition: transform .3s; transform-origin: left;
+  }
+  .skill-card.c-pink::before { background: linear-gradient(90deg, var(--pink), #f59ab3); }
+  .skill-card.c-blue::before { background: linear-gradient(90deg, var(--blue), #5dd3f5); }
+  .skill-card.c-green::before { background: linear-gradient(90deg, var(--green), #82c99a); }
+  .skill-card.c-purple::before { background: linear-gradient(90deg, var(--purple), #7a80a8); }
+  .skill-card:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(72,77,109,.12); }
+  .skill-card:hover::before { transform: scaleX(1); }
+  .skill-card-icon { font-size: 1.7rem; margin-bottom: .9rem; }
+  .skill-card h3 {
+    font-family: var(--font-sans); font-size: .75rem; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 1rem;
+  }
+  .tag-list { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .tag {
+    padding: .25rem .7rem; border-radius: 100px;
+    font-family: var(--font-sans); font-size: .72rem; font-weight: 600;
+    border: 1.5px solid; cursor: default; transition: background .18s, color .18s, transform .15s;
+  }
+  .tag:hover { transform: translateY(-1px); }
+  .tag-pink  { border-color: rgba(234,99,140,.35); color: var(--pink); background: transparent; }
+  .tag-pink:hover  { background: var(--pink); color: #fff; }
+  .tag-blue  { border-color: rgba(8,178,227,.35); color: var(--blue); background: transparent; }
+  .tag-blue:hover  { background: var(--blue); color: #fff; }
+  .tag-green { border-color: rgba(87,167,115,.35); color: var(--green); background: transparent; }
+  .tag-green:hover { background: var(--green); color: #fff; }
+  .tag-purple{ border-color: rgba(72,77,109,.3); color: var(--purple); background: transparent; }
+  .tag-purple:hover{ background: var(--purple); color: #fff; }
+
+  /* ── PHILOSOPHY ── */
+  .philosophy { background: linear-gradient(160deg, var(--pink-lt) 0%, var(--blue-lt) 100%); }
+  .philosophy-inner { max-width: 1200px; margin: 0 auto; }
+  .pillars { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; margin-top: 5rem; }
+  .pillar {
+    background: #fff; padding: 2.5rem 2rem; border-radius: 24px;
+    box-shadow: 0 4px 24px rgba(72,77,109,.08);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .pillar:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(72,77,109,.14); }
+  .pillar-num {
+    font-family: var(--font-display); font-size: 4rem;
+    font-style: italic; line-height: 1; margin-bottom: .5rem;
+  }
+
+  .p-pink .pillar-num { color: rgba(234,99,140,.2); }
+  .p-blue .pillar-num { color: rgba(8,178,227,.2); }
+  .p-green .pillar-num { color: rgba(87,167,115,.2); }
+  .pillar-accent { width: 2rem; height: 3px; border-radius: 2px; margin-bottom: 1rem; }
+  .p-pink .pillar-accent { background: var(--pink); }
+  .p-blue .pillar-accent { background: var(--blue); }
+  .p-green .pillar-accent { background: var(--green); }
+  .pillar h3 { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: .85rem; }
+  .pillar p { font-size: .9rem; line-height: 1.85; color: var(--ink-mid); }
+
+  /* ── PHOTOGRAPHY ── */
+  .photo-section { background: #fff; position: relative; overflow: hidden; }
+  .photo-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+  .photo-intro {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    align-items: center; margin-bottom: 4rem;
+  }
+  .photo-intro p { font-size: .95rem; line-height: 1.9; color: var(--ink-mid); }
+  .intro-graphic {
+    display: flex; justify-content: center; align-items: center;
+  }
+  .intro-graphic svg {
+    width: 100%; max-width: 420px; height: auto;
+    filter: drop-shadow(0 8px 32px rgba(234,99,140,.08));
+  }
+
+  /* lens grid */
+  .lens-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 220px 220px;
+    gap: 16px;
+  }
+
+
+
+  .lens-tile {
+    border-radius: 20px; overflow: hidden; position: relative;
+    cursor: default;
+    transition: transform .35s cubic-bezier(.34,1.4,.64,1), box-shadow .35s;
+  }
+  .lens-tile:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 50px rgba(72,77,109,.16); z-index: 2; }
+  .lens-tile svg { width: 100%; height: 100%; display: block; }
+  .lens-overlay {
+    position: absolute; inset: 0;
+    background: rgba(252,252,252,.93);
+    backdrop-filter: blur(6px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 1.5rem; text-align: center;
+    opacity: 0; transition: opacity .3s ease; border-radius: 20px;
+  }
+  .lens-tile:hover .lens-overlay { opacity: 1; }
+  .lens-overlay h4 {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 1.1rem; color: var(--ink); margin-bottom: .4rem;
+  }
+  .lens-overlay p { font-family: var(--font-sans); font-size: .78rem; line-height: 1.65; color: var(--ink-mid); }
+  .lens-overlay .lo-tag {
+    display: inline-block; margin-top: .7rem;
+    padding: .18rem .7rem; border-radius: 100px;
+    font-family: var(--font-sans); font-size: .65rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+  }
+  .lo-pink { background: var(--pink-lt); color: var(--pink); }
+  .lo-blue { background: var(--blue-lt); color: var(--blue); }
+  .lo-green { background: var(--green-lt); color: var(--green); }
+  .lo-purple { background: var(--purple-lt); color: var(--purple); }
+
+  @media (max-width: 900px) {
+    .photo-intro { grid-template-columns: 1fr; }
+    .intro-graphic svg { max-width: 280px; }
+    .lens-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+
+
+    .lens-tile { height: 160px; }
+  }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--purple); text-align: center; }
+  .contact-inner { max-width: 680px; margin: 0 auto; }
+  .contact .section-eyebrow { color: rgba(252,252,252,.6); }
+  .contact h2.section-title { color: #fff; }
+  .contact h2.section-title em { color: var(--blue); }
+  .contact p { font-size: .96rem; line-height: 1.85; color: rgba(252,252,252,.75); margin-bottom: 3rem; }
+  .contact-email {
+    display: inline-flex; align-items: center; gap: .75rem;
+    font-family: var(--font-sans); font-size: 1rem; font-weight: 700;
+    color: #fff; text-decoration: none;
+    padding: 1.1rem 2.5rem; border-radius: 100px;
+    background: linear-gradient(135deg, var(--pink), #d44b77);
+    box-shadow: 0 6px 28px rgba(234,99,140,.4);
+    transition: box-shadow .2s, transform .15s;
+  }
+  .contact-email:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(234,99,140,.55); }
+  .contact-meta { margin-top: 2rem; font-family: var(--font-sans); font-size: .78rem; letter-spacing: .1em; color: rgba(252,252,252,.4); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); padding: 2.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  footer p { font-family: var(--font-sans); font-size: .78rem; color: rgba(252,252,252,.3); letter-spacing: .06em; }
+  footer span { color: var(--pink); }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; gap: 3rem; }
+    .hero-right { order: -1; }
+    .craft-wrap { width: 300px; height: 320px; }
+    .cw-browser { width: 220px; }
+    .cw-code { width: 120px; top: 10px; }
+    .cw-phone { width: 90px; }
+    section { padding: 5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-left { position: static; }
+    .pillars { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cw-browser,.cw-code,.cw-phone,.cw-badge { animation: none; }
+    .scroll-hint-line { animation: none; }
+    .polaroid { transition: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">K<span>.</span>H</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#photography">Lens</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Designer &amp; Developer</div>
+    <h1 class="hero-name">
+      Creative<br>
+      <em>Meets</em><br>
+      Technical.
+    </h1>
+    <p class="hero-role">UX/UI · Front-End · Web-Dev · iOS </p>
+    <p class="hero-desc">
+      Transforming complexity into intuitive digital experiences through thoughtful design, 
+      technical insight, and creative problem-solving
+    </p>
+    <div class="btn-group">
+      <a href="#about" class="btn-primary">Explore My Story</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="craft-wrap">
+
+      <!-- Browser window (back) -->
+      <div class="cw-browser">
+        <div class="cw-browser-bar">
+          <div class="cw-dot cw-dot-r"></div>
+          <div class="cw-dot cw-dot-y"></div>
+          <div class="cw-dot cw-dot-g"></div>
+          <div class="cw-url-bar"><span class="cw-url-text">myportfolio.design</span></div>
+        </div>
+        <div class="cw-browser-body">
+          <div class="wf-nav">
+            <div class="wf-nav-dot active"></div>
+            <div class="wf-nav-dot"></div>
+            <div class="wf-nav-dot"></div>
+            <div class="wf-nav-dot"></div>
+          </div>
+          <div class="wf-hero-block">
+            <div class="wf-text-lines">
+              <div class="wf-line w-90 pink" style="height:9px;border-radius:4px"></div>
+              <div class="wf-line w-80 pink" style="height:9px;border-radius:4px"></div>
+              <div class="wf-line w-60"></div>
+              <div class="wf-line w-80"></div>
+              <div class="wf-line w-60"></div>
+              <div style="width:55px;height:14px;background:var(--pink);border-radius:6px;margin-top:4px"></div>
+            </div>
+            <div class="wf-img-box">🎨</div>
+          </div>
+          <div class="wf-cards">
+            <div class="wf-card"><div class="wf-card-top">📱</div><div class="wf-card-line"></div><div class="wf-card-line w-70"></div></div>
+            <div class="wf-card"><div class="wf-card-top">💻</div><div class="wf-card-line"></div><div class="wf-card-line w-70"></div></div>
+            <div class="wf-card"><div class="wf-card-top">📷</div><div class="wf-card-line"></div><div class="wf-card-line w-70"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code card (top right) -->
+      <div class="cw-code">
+        <div class="cw-code-header">
+          <div class="cw-code-dot r"></div>
+          <div class="cw-code-dot y"></div>
+          <div class="cw-code-dot g"></div>
+        </div>
+        <div class="cw-code-lines">
+          <div class="cl cl-pink cl-w-70"></div>
+          <div class="cl cl-blue cl-w-85 cl-indent"></div>
+          <div class="cl cl-green cl-w-50 cl-indent"></div>
+          <div class="cl cl-dim cl-w-40 cl-indent"></div>
+          <div class="cl cl-blue cl-w-70 cl-indent"></div>
+          <div class="cl cl-pink cl-w-85"></div>
+          <div class="cl cl-dim cl-w-50"></div>
+          <div class="cl cl-green cl-w-70 cl-indent"></div>
+        </div>
+      </div>
+
+      <!-- Phone (bottom right) -->
+      <div class="cw-phone">
+        <div class="cw-phone-notch"></div>
+        <div class="cw-phone-screen">
+          <div class="ph-status">
+            <div class="ph-status-bar"></div>
+            <div class="ph-time">9:41</div>
+          </div>
+          <div class="ph-hero-img">🌸</div>
+          <div class="ph-lines">
+            <div class="ph-line"></div>
+            <div class="ph-line w-75"></div>
+            <div class="ph-line"></div>
+          </div>
+          <div class="ph-btn"><div class="ph-btn-label">Explore</div></div>
+        </div>
+      </div>
+
+      <!-- Floating badges -->
+      <div class="cw-badge cw-badge-1">UX/UI</div>
+      <div class="cw-badge cw-badge-2">iOS</div>
+      <div class="cw-badge cw-badge-3">React</div>
+
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-left reveal">
+      <div class="section-eyebrow">Who Am I</div>
+      <h2 class="section-title">A Designer<br>who <em>codes.</em></h2>
+      <div class="edu-cards">
+        <div class="edu-card">
+          <span class="pill pill-blue">B.S. Degree</span>
+          <h4>Bachelor of Science in Informatics, UX/UI Design</h4>
+          <div class="school">The University of Texas at Austin</div>
+          <p>Minor: Chinese<br>Certificate: Elements of Computing</p>
+        </div>
+        <div class="edu-card">
+          <span class="pill pill-pink">A.A Degree</span>
+          <h4>Associate of Arts in General Studies</h4>
+          <div class="school">Austin Community College</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-paras reveal">
+      <p>As a <strong>Designer and Programmer with an Informatics background</strong>, I bring a blend of technical knowledge and design thinking to every project, crafting user experiences that are intuitive, engaging, and human-centered.</p>
+
+      <div class="about-highlight">
+        "Much like capturing the perfect shot in photography, developing software requires patience, experimentation, and a keen eye for improvement."
+      </div>
+
+      <p>My hobby of photography taught me to see the beauty in small details, just like in design, where the smallest UI choices shape the entire user experience. I enjoy <strong>collaborating, iterating, and getting feedback</strong> while constantly building knowledge on upcoming industry trends.</p>
+
+      <p>I'm passionate about building <strong>intuitive, accessible, and visually engaging products</strong> that balance creativity with functionality. Whether creating wireframes in Figma, refining interfaces in Adobe Creative Suite, or developing responsive applications, I approach every project with curiosity and strong attention to detail.</p>
+
+      <p>Beyond design, I have hands-on experience in <strong>both front-end and back-end development</strong>, bridging the gap between design vision and technical implementation. I've worked with React, Swift/iOS, APIs, databases, and dynamic web applications to create polished, user-friendly solutions.</p>
+
+      <p>One of my greatest strengths is my <strong>ability to learn quickly</strong> and eagerness to grow in fast-paced environments. I thrive in collaborative settings where I can contribute creatively, communicate effectively, and learn from others bringing a positive, motivated mindset to every team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="skills-inner">
+    <div class="section-eyebrow reveal">Capabilities</div>
+    <h2 class="section-title reveal">What I <em>Bring</em></h2>
+
+    <div class="skills-grid">
+
+      <div class="skill-card c-pink reveal">
+        <div class="skill-card-icon">⌨️</div>
+        <h3>Programming Languages</h3>
+        <div class="tag-list">
+          <span class="tag tag-pink">Java</span>
+          <span class="tag tag-pink">Python</span>
+          <span class="tag tag-pink">Flask</span>
+          <span class="tag tag-pink">HTML</span>
+          <span class="tag tag-pink">CSS</span>
+          <span class="tag tag-pink">Tailwind CSS</span>
+          <span class="tag tag-pink">JavaScript</span>
+          <span class="tag tag-pink">jQuery</span>
+          <span class="tag tag-pink">PHP</span>
+          <span class="tag tag-pink">SQL</span>
+          <span class="tag tag-pink">React</span>
+          <span class="tag tag-pink">TypeScript</span>
+          <span class="tag tag-pink">Swift</span>
+          <span class="tag tag-pink">SwiftUI</span>
+          <span class="tag tag-pink">Programmatic UI Design</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-blue reveal">
+        <div class="skill-card-icon">🎨</div>
+        <h3>Design Tools</h3>
+        <div class="tag-list">
+          <span class="tag tag-blue">Figma</span>
+          <span class="tag tag-blue">Photoshop</span>
+          <span class="tag tag-blue">Illustrator</span>
+          <span class="tag tag-blue">InDesign</span>
+          <span class="tag tag-blue">Canva</span>
+          <span class="tag tag-blue">Sharpr3D CAD</span>
+          <span class="tag tag-blue">Adobe Creative Suite</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-green reveal">
+        <div class="skill-card-icon">🛠️</div>
+        <h3>Software &amp; Tools</h3>
+        <div class="tag-list">
+          <span class="tag tag-green">Visual Studio</span>
+          <span class="tag tag-green">Jupyter Notebook</span>
+          <span class="tag tag-green">TensorFlow</span>
+          <span class="tag tag-green">Eclipse IDE</span>
+          <span class="tag tag-green">Xcode</span>
+          <span class="tag tag-green">WordPress</span>
+          <span class="tag tag-green">SharePoint</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-purple reveal">
+        <div class="skill-card-icon">💻</div>
+        <h3>Operating Systems</h3>
+        <div class="tag-list">
+          <span class="tag tag-purple">Windows</span>
+          <span class="tag tag-purple">Linux</span>
+          <span class="tag tag-purple">MacOS</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-pink reveal">
+        <div class="skill-card-icon">📱</div>
+        <h3>Development</h3>
+        <div class="tag-list">
+          <span class="tag tag-pink">Full-Stack</span>
+          <span class="tag tag-pink">Web Development</span>
+          <span class="tag tag-pink">API Development</span>
+          <span class="tag tag-pink">iOS Development</span>
+          <span class="tag tag-pink">Front-End</span>
+          <span class="tag tag-pink">Back-End</span>
+          <span class="tag tag-pink">UI/UX</span>
+          <span class="tag tag-pink">HCI</span>
+          <span class="tag tag-pink">WCAG</span>
+          <span class="tag tag-pink">ADA</span>
+          <span class="tag tag-pink">Cookies</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-blue reveal">
+        <div class="skill-card-icon">🧠</div>
+        <h3>Emerging Tech</h3>
+        <div class="tag-list">
+          <span class="tag tag-blue">Machine Learning</span>
+          <span class="tag tag-blue">Deep Learning</span>
+          <span class="tag tag-blue">Computer Vision</span>
+          <span class="tag tag-blue">AI</span>
+          <span class="tag tag-blue">Data Analytics</span>
+          <span class="tag tag-blue">Data Visualization</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-green reveal">
+        <div class="skill-card-icon">🔬</div>
+        <h3>UX/UI Process</h3>
+        <div class="tag-list">
+          <span class="tag tag-green">Interviews</span>
+          <span class="tag tag-green">Contextual Inquiries</span>
+          <span class="tag tag-green">Stakeholder Maps</span>
+          <span class="tag tag-green">Personas</span>
+          <span class="tag tag-green">Affinity Diagrams</span>
+          <span class="tag tag-green">Storytelling</span>
+          <span class="tag tag-green">Wireframes</span>
+          <span class="tag tag-green">Prototypes</span>
+          <span class="tag tag-green">Mockups</span>
+          <span class="tag tag-green">User Testing</span>
+          <span class="tag tag-green">User Research</span>
+          <span class="tag tag-green">User-Centered Design</span>
+          <span class="tag tag-green">Dev Life Cycle</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-purple reveal">
+        <div class="skill-card-icon">✏️</div>
+        <h3>Graphic Design</h3>
+        <div class="tag-list">
+          <span class="tag tag-purple">Typography</span>
+          <span class="tag tag-purple">Color Theory</span>
+          <span class="tag tag-purple">Brand &amp; Logo Design</span>
+          <span class="tag tag-purple">Iconography</span>
+        </div>
+      </div>
+
+      <div class="skill-card c-pink reveal">
+        <div class="skill-card-icon">🤝</div>
+        <h3>Soft Skills</h3>
+        <div class="tag-list">
+          <span class="tag tag-pink">Detail-Oriented</span>
+          <span class="tag tag-pink">Communication</span>
+          <span class="tag tag-pink">Teamwork</span>
+          <span class="tag tag-pink">Problem-Solving</span>
+          <span class="tag tag-pink">Systemic Thinking</span>
+          <span class="tag tag-pink">Adaptability</span>
+          <span class="tag tag-pink">Leadership</span>
+          <span class="tag tag-pink">Cross-Functional</span>
+          <span class="tag tag-pink">Quality Assurance</span>
+          <span class="tag tag-pink">Priority Management</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-inner">
+    <div class="section-eyebrow reveal">My Approach</div>
+    <h2 class="section-title reveal">Design <em>Philosophy</em></h2>
+    <div class="pillars">
+      <div class="pillar p-pink reveal">
+        <div class="pillar-num">01</div>
+        <div class="pillar-accent"></div>
+        <h3>Human-Centered</h3>
+        <p>Every design decision starts with the user. I conduct research, build empathy through personas and testing, and iterate until the product genuinely serves the people who use it — not just looks good in a mockup.</p>
+      </div>
+      <div class="pillar p-blue reveal">
+        <div class="pillar-num">02</div>
+        <div class="pillar-accent"></div>
+        <h3>Detail-Obsessed</h3>
+        <p>I believe the smallest details shape the entire experience. From pixel-perfect spacing to micro-interactions and accessible contrast ratios — precision is what separates good design from great design.</p>
+      </div>
+      <div class="pillar p-green reveal">
+        <div class="pillar-num">03</div>
+        <div class="pillar-accent"></div>
+        <h3>Bridge Builder</h3>
+        <p>As both a designer and developer, I speak the language of both worlds. I translate design vision into technical reality, ensuring what gets built is faithful to the intent — and technically sound from the start.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTOGRAPHY -->
+<section class="photo-section" id="photography">
+  <div class="photo-inner">
+    <div class="section-eyebrow reveal">Through The Lens</div>
+    <h2 class="section-title reveal">Photography<br>as <em>Design Thinking</em></h2>
+
+    <div class="photo-intro reveal">
+      <p>Photography trained me to slow down and truly <em>see</em>: the angle of light, the tension between elements, the story a single frame can tell. That same eye shows up in every design decision: choosing the right visual weight, breathing room between components, or the precise shade that makes a button feel inviting rather than aggressive.</p>
+
+      <!-- Creative graphic: the three-way intersection -->
+      <div class="intro-graphic">
+        <svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <!-- orbit ring gradient -->
+            <linearGradient id="orb1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ea638c" stop-opacity=".9"/>
+              <stop offset="100%" stop-color="#ea638c" stop-opacity=".1"/>
+            </linearGradient>
+            <linearGradient id="orb2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#08b2e3" stop-opacity=".9"/>
+              <stop offset="100%" stop-color="#08b2e3" stop-opacity=".1"/>
+            </linearGradient>
+            <linearGradient id="orb3" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#57a773" stop-opacity=".9"/>
+              <stop offset="100%" stop-color="#57a773" stop-opacity=".1"/>
+            </linearGradient>
+            <!-- center glow -->
+            <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#fff" stop-opacity=".95"/>
+              <stop offset="60%"  stop-color="#fde8ef" stop-opacity=".7"/>
+              <stop offset="100%" stop-color="#d6f3fc" stop-opacity=".0"/>
+            </radialGradient>
+            <!-- subtle bg glow -->
+            <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#fde8ef" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="softBlur">
+              <feGaussianBlur stdDeviation="2.5"/>
+            </filter>
+          </defs>
+
+          <!-- soft bg glow blob -->
+          <ellipse cx="210" cy="160" rx="190" ry="140" fill="url(#bgGlow)" filter="url(#softBlur)"/>
+
+          <!-- ── Orbit rings ── -->
+          <!-- Ring 1: Design (pink) — tilted -->
+          <ellipse cx="210" cy="160" rx="130" ry="42" fill="none"
+            stroke="url(#orb1)" stroke-width="1.5" opacity=".55"
+            transform="rotate(-25 210 160)">
+            <animateTransform attributeName="transform" type="rotate"
+              from="-25 210 160" to="335 210 160" dur="14s" repeatCount="indefinite"/>
+          </ellipse>
+
+          <!-- Ring 2: Code (blue) — opposite tilt -->
+          <ellipse cx="210" cy="160" rx="130" ry="42" fill="none"
+            stroke="url(#orb2)" stroke-width="1.5" opacity=".55"
+            transform="rotate(25 210 160)">
+            <animateTransform attributeName="transform" type="rotate"
+              from="25 210 160" to="385 210 160" dur="18s" repeatCount="indefinite"/>
+          </ellipse>
+
+          <!-- Ring 3: Users (green) — flat equatorial -->
+          <ellipse cx="210" cy="160" rx="130" ry="18" fill="none"
+            stroke="url(#orb3)" stroke-width="1.5" opacity=".45"
+            transform="rotate(0 210 160)">
+            <animateTransform attributeName="transform" type="rotate"
+              from="0 210 160" to="360 210 160" dur="22s" repeatCount="indefinite"/>
+          </ellipse>
+
+          <!-- ── Outer dashed guide ring ── -->
+          <circle cx="210" cy="160" r="128" fill="none"
+            stroke="#484d6d" stroke-width="1" stroke-dasharray="3,8" opacity=".1"/>
+
+          <!-- ── Orbiting dots ── -->
+          <!-- Photography dot -->
+          <circle r="7" fill="#ea638c" opacity=".9" filter="url(#softBlur)">
+            <animateMotion dur="14s" repeatCount="indefinite">
+              <mpath href="#path-pink"/>
+            </animateMotion>
+          </circle>
+          <circle r="5" fill="#ea638c">
+            <animateMotion dur="14s" repeatCount="indefinite">
+              <mpath href="#path-pink"/>
+            </animateMotion>
+          </circle>
+
+          <!-- Code dot -->
+          <circle r="7" fill="#08b2e3" opacity=".9" filter="url(#softBlur)">
+            <animateMotion dur="18s" repeatCount="indefinite" keyPoints="0.5;1;0.5" keyTimes="0;0.5;1" calcMode="linear">
+              <mpath href="#path-blue"/>
+            </animateMotion>
+          </circle>
+          <circle r="5" fill="#08b2e3">
+            <animateMotion dur="18s" repeatCount="indefinite" keyPoints="0.5;1;0.5" keyTimes="0;0.5;1" calcMode="linear">
+              <mpath href="#path-blue"/>
+            </animateMotion>
+          </circle>
+
+          <!-- Design dot -->
+          <circle r="7" fill="#57a773" opacity=".9" filter="url(#softBlur)">
+            <animateMotion dur="22s" repeatCount="indefinite" keyPoints="0.75;1;0.75" keyTimes="0;0.5;1" calcMode="linear">
+              <mpath href="#path-green"/>
+            </animateMotion>
+          </circle>
+          <circle r="5" fill="#57a773">
+            <animateMotion dur="22s" repeatCount="indefinite" keyPoints="0.75;1;0.75" keyTimes="0;0.5;1" calcMode="linear">
+              <mpath href="#path-green"/>
+            </animateMotion>
+          </circle>
+
+          <!-- Hidden motion paths matching the rings -->
+          <path id="path-pink"  d="M340,160 A130,42 0 1,1 339.9,160" fill="none" transform="rotate(-25 210 160)"/>
+          <path id="path-blue"  d="M340,160 A130,42 0 1,1 339.9,160" fill="none" transform="rotate(25 210 160)"/>
+          <path id="path-green" d="M340,160 A130,18 0 1,1 339.9,160" fill="none"/>
+
+          <!-- ── Center sphere ── -->
+          <circle cx="210" cy="160" r="52" fill="url(#coreGlow)"/>
+          <circle cx="210" cy="160" r="52" fill="none"
+            stroke="#ea638c" stroke-width="1.2" opacity=".2"/>
+
+          <!-- Person icon in center -->
+          <!-- head -->
+          <circle cx="210" cy="148" r="11" fill="#484d6d" opacity=".18"/>
+          <!-- body / shoulders -->
+          <path d="M189,182 Q189,163 210,163 Q231,163 231,182"
+            fill="#484d6d" opacity=".15"/>
+          <!-- subtle gradient overlay to blend with sphere -->
+          <path d="M189,182 Q189,163 210,163 Q231,163 231,182"
+            fill="url(#coreGlow)" opacity=".4"/>
+          
+          <!-- center label -->
+          <text x="210" y="196" text-anchor="middle"
+            font-family="'Plus Jakarta Sans',sans-serif"
+            font-size="7.5" font-weight="700" letter-spacing="1.5"
+            fill="#484d6d" opacity=".45">ME</text>
+
+          <!-- ── Main orbit labels ── -->
+
+          <!-- Design label — top left (pink) -->
+          <g transform="translate(64, 76)">
+            <rect x="-2" y="-13" width="68" height="20" rx="10" fill="#fde8ef"/>
+            <text font-family="'Plus Jakarta Sans',sans-serif" font-size="8.5" font-weight="700"
+              fill="#ea638c" letter-spacing=".5">
+              <tspan x="6" y="0">✦ Design</tspan>
+            </text>
+          </g>
+
+          <!-- Code label — top right (blue) -->
+          <g transform="translate(272, 76)">
+            <rect x="-2" y="-13" width="72" height="20" rx="10" fill="#d6f3fc"/>
+            <text font-family="'Plus Jakarta Sans',sans-serif" font-size="8.5" font-weight="700"
+              fill="#08b2e3" letter-spacing=".5">
+              <tspan x="6" y="0">{ } Code</tspan>
+            </text>
+          </g>
+
+          <!-- Users label — bottom (green) -->
+          <g transform="translate(153, 258)">
+            <rect x="-2" y="-13" width="62" height="20" rx="10" fill="#e2f3e8"/>
+            <text font-family="'Plus Jakarta Sans',sans-serif" font-size="8.5" font-weight="700"
+              fill="#57a773" letter-spacing=".5">
+              <tspan x="6" y="0">◎ Users</tspan>
+            </text>
+          </g>
+
+          <!-- ── Connector tick marks to center ── -->
+          <line x1="130" y1="96"  x2="182" y2="138" stroke="#484d6d" stroke-width=".8" stroke-dasharray="2,5" opacity=".18"/>
+          <line x1="278" y1="96"  x2="238" y2="138" stroke="#484d6d" stroke-width=".8" stroke-dasharray="2,5" opacity=".18"/>
+          <line x1="210" y1="246" x2="210" y2="213" stroke="#484d6d" stroke-width=".8" stroke-dasharray="2,5" opacity=".18"/>
+
+          <!-- ── Floating soft-skill chips ── -->
+          <!-- Empathy -->
+          <g opacity=".85">
+            <rect x="38" y="138" width="62" height="18" rx="9" fill="#fde8ef" opacity=".9"/>
+            <text x="69" y="151" text-anchor="middle"
+              font-family="'Plus Jakarta Sans',sans-serif" font-size="7.5" font-weight="700"
+              fill="#ea638c" letter-spacing=".4">Empathy</text>
+          </g>
+          <!-- Problem-Solving -->
+          <g opacity=".85">
+            <rect x="310" y="138" width="90" height="18" rx="9" fill="#d6f3fc" opacity=".9"/>
+            <text x="355" y="151" text-anchor="middle"
+              font-family="'Plus Jakarta Sans',sans-serif" font-size="7.5" font-weight="700"
+              fill="#08b2e3" letter-spacing=".4">Problem-Solving</text>
+          </g>
+          <!-- Detail-Oriented -->
+          <g opacity=".85">
+            <rect x="34" y="164" width="88" height="18" rx="9" fill="#e2f3e8" opacity=".9"/>
+            <text x="78" y="177" text-anchor="middle"
+              font-family="'Plus Jakarta Sans',sans-serif" font-size="7.5" font-weight="700"
+              fill="#57a773" letter-spacing=".4">Detail-Oriented</text>
+          </g>
+          <!-- Adaptability -->
+          <g opacity=".85">
+            <rect x="314" y="164" width="80" height="18" rx="9" fill="#ecedf5" opacity=".9"/>
+            <text x="354" y="177" text-anchor="middle"
+              font-family="'Plus Jakarta Sans',sans-serif" font-size="7.5" font-weight="700"
+              fill="#484d6d" letter-spacing=".4">Adaptability</text>
+          </g>
+          <!-- Communication -->
+          <g opacity=".8">
+            <rect x="42" y="190" width="88" height="18" rx="9" fill="#fde8ef" opacity=".75"/>
+            <text x="86" y="203" text-anchor="middle"
+              font-family="'Plus Jakarta Sans',sans-serif" font-size="7.5" font-weight="700"
+              fill="#ea638c" opacity=".8" letter-spacing=".4">Communication</text>
+          </g>
+          <!-- Systemic Thinking -->
+          <g opacity=".8">
+            <rect x="298" y="190" width="104" height="18" rx="9" fill="#d6f3fc" opacity=".75"/>
+            <text x="350" y="203" text-anchor="middle"
+              font-family="'Plus Jakarta Sans',sans-serif" font-size="7.5" font-weight="700"
+              fill="#08b2e3" opacity=".8" letter-spacing=".4">Systemic Thinking</text>
+          </g>
+
+          <!-- ── Pull quote below sphere ── -->
+          <text x="210" y="298" text-anchor="middle"
+            font-family="'Playfair Display',serif" font-style="italic"
+            font-size="11" fill="#484d6d" opacity=".38">
+            "Every frame is a deliberate choice
+          </text>
+          <text x="210" y="312" text-anchor="middle"
+            font-family="'Playfair Display',serif" font-style="italic"
+            font-size="11" fill="#484d6d" opacity=".38">
+            just like every pixel."
+          </text>
+
+        </svg>
+      </div>
+    </div>
+
+    <!-- 3×2 mosaic — hover each tile to reveal its connection to design -->
+    <div class="lens-grid reveal">
+
+      <!-- 1. Composition & Layout -->
+      <div class="lens-tile">
+        <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g1a" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fde8ef"/>
+              <stop offset="100%" stop-color="#d6f3fc"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="220" fill="url(#g1a)"/>
+          <!-- rule-of-thirds grid lines -->
+          <line x1="100" y1="0" x2="100" y2="220" stroke="#ea638c" stroke-width="1" stroke-dasharray="4,6" opacity=".35"/>
+          <line x1="200" y1="0" x2="200" y2="220" stroke="#ea638c" stroke-width="1" stroke-dasharray="4,6" opacity=".35"/>
+          <line x1="0" y1="73" x2="300" y2="73" stroke="#ea638c" stroke-width="1" stroke-dasharray="4,6" opacity=".35"/>
+          <line x1="0" y1="147" x2="300" y2="147" stroke="#ea638c" stroke-width="1" stroke-dasharray="4,6" opacity=".35"/>
+          <!-- intersection dots -->
+          <circle cx="100" cy="73" r="5" fill="#ea638c" opacity=".55"/>
+          <circle cx="200" cy="73" r="5" fill="#08b2e3" opacity=".55"/>
+          <circle cx="100" cy="147" r="5" fill="#08b2e3" opacity=".55"/>
+          <circle cx="200" cy="147" r="5" fill="#ea638c" opacity=".55"/>
+          <!-- landscape shapes -->
+          <ellipse cx="60" cy="190" rx="55" ry="30" fill="#ea638c" opacity=".15"/>
+          <ellipse cx="240" cy="195" rx="60" ry="25" fill="#08b2e3" opacity=".13"/>
+         
+          <!-- viewfinder corners -->
+          <path d="M18,48 L18,36 L30,36" stroke="#484d6d" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M282,48 L282,36 L270,36" stroke="#484d6d" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M18,172 L18,184 L30,184" stroke="#484d6d" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M282,172 L282,184 L270,184" stroke="#484d6d" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="lens-overlay">
+          <h4>Composition &amp; Layout</h4>
+          <p>The rule of thirds in photography is visual hierarchy in design, guiding the eye exactly where it needs to go.</p>
+          <span class="lo-tag lo-pink">UX/UI Design</span>
+        </div>
+      </div>
+
+      <!-- 2. Light & Contrast -->
+      <div class="lens-tile">
+        <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g2a" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ecedf5"/>
+              <stop offset="100%" stop-color="#d6f3fc"/>
+            </linearGradient>
+            <radialGradient id="g2b" cx="50%" cy="30%" r="60%">
+              <stop offset="0%" stop-color="#fff" stop-opacity=".9"/>
+              <stop offset="100%" stop-color="#08b2e3" stop-opacity=".0"/>
+            </radialGradient>
+          </defs>
+          <rect width="300" height="220" fill="url(#g2a)"/>
+          <circle cx="150" cy="70" r="65" fill="url(#g2b)"/>
+          <!-- rays -->
+          <line x1="150" y1="5" x2="150" y2="18" stroke="#08b2e3" stroke-width="1.5" opacity=".4"/>
+          <line x1="197" y1="18" x2="188" y2="28" stroke="#08b2e3" stroke-width="1.5" opacity=".4"/>
+          <line x1="215" y1="62" x2="202" y2="62" stroke="#08b2e3" stroke-width="1.5" opacity=".4"/>
+          <line x1="103" y1="18" x2="112" y2="28" stroke="#08b2e3" stroke-width="1.5" opacity=".4"/>
+          <line x1="85" y1="62" x2="98" y2="62" stroke="#08b2e3" stroke-width="1.5" opacity=".4"/>
+          <ellipse cx="150" cy="185" rx="80" ry="28" fill="#484d6d" opacity=".08"/>
+          <ellipse cx="150" cy="178" rx="50" ry="16" fill="#484d6d" opacity=".08"/>
+        </svg>
+        <div class="lens-overlay">
+          <h4>Light &amp; Contrast</h4>
+          <p>Chasing the perfect light taught me that contrast isn't harsh, it's what makes things readable, beautiful, and alive.</p>
+          <span class="lo-tag lo-blue">Accessibility</span>
+        </div>
+      </div>
+
+      <!-- 3. Macro Detail -->
+      <div class="lens-tile">
+        <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g3a" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e2f3e8"/>
+              <stop offset="100%" stop-color="#fde8ef"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="220" fill="url(#g3a)"/>
+          <!-- macro lens rings -->
+          <circle cx="150" cy="110" r="90" fill="none" stroke="#57a773" stroke-width="1.5" opacity=".2"/>
+          <circle cx="150" cy="110" r="68" fill="none" stroke="#57a773" stroke-width="1.5" opacity=".28"/>
+          <circle cx="150" cy="110" r="44" fill="none" stroke="#ea638c" stroke-width="1.5" opacity=".38"/>
+          <circle cx="150" cy="110" r="22" fill="#ea638c" opacity=".13"/>
+          <circle cx="150" cy="110" r="7" fill="#ea638c" opacity=".7"/>
+          <!-- petals -->
+          <circle cx="150" cy="94" r="6" fill="#fde8ef" stroke="#ea638c" stroke-width="1.2" opacity=".85"/>
+          <circle cx="164" cy="102" r="6" fill="#fde8ef" stroke="#ea638c" stroke-width="1.2" opacity=".85"/>
+          <circle cx="164" cy="118" r="6" fill="#fde8ef" stroke="#ea638c" stroke-width="1.2" opacity=".85"/>
+          <circle cx="150" cy="126" r="6" fill="#fde8ef" stroke="#ea638c" stroke-width="1.2" opacity=".85"/>
+          <circle cx="136" cy="118" r="6" fill="#fde8ef" stroke="#ea638c" stroke-width="1.2" opacity=".85"/>
+          <circle cx="136" cy="102" r="6" fill="#fde8ef" stroke="#ea638c" stroke-width="1.2" opacity=".85"/>
+          <!-- crosshair -->
+          <line x1="150" y1="20" x2="150" y2="35" stroke="#57a773" stroke-width="1.5" opacity=".5"/>
+          <line x1="150" y1="185" x2="150" y2="200" stroke="#57a773" stroke-width="1.5" opacity=".5"/>
+          <line x1="20" y1="110" x2="35" y2="110" stroke="#57a773" stroke-width="1.5" opacity=".5"/>
+          <line x1="265" y1="110" x2="280" y2="110" stroke="#57a773" stroke-width="1.5" opacity=".5"/>
+        </svg>
+        <div class="lens-overlay">
+          <h4>Macro Detail</h4>
+          <p>Getting close macro photography and pixel-perfect UI share the same truth: beauty lives in the tiniest details.</p>
+          <span class="lo-tag lo-green">Attention to Detail</span>
+        </div>
+      </div>
+
+      <!-- 4. Color & Mood -->
+      <div class="lens-tile">
+        <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g4a" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fde8ef"/>
+              <stop offset="50%" stop-color="#ecedf5"/>
+              <stop offset="100%" stop-color="#d6f3fc"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="220" fill="url(#g4a)"/>
+          <!-- colour palette swatches -->
+          <rect x="30" y="38" width="52" height="52" rx="12" fill="#ea638c" opacity=".85"/>
+          <rect x="92" y="38" width="52" height="52" rx="12" fill="#08b2e3" opacity=".85"/>
+          <rect x="154" y="38" width="52" height="52" rx="12" fill="#57a773" opacity=".85"/>
+          <rect x="216" y="38" width="52" height="52" rx="12" fill="#484d6d" opacity=".85"/>
+          <!-- tonal row -->
+          <rect x="30" y="102" width="52" height="22" rx="6" fill="#fde8ef"/>
+          <rect x="92" y="102" width="52" height="22" rx="6" fill="#d6f3fc"/>
+          <rect x="154" y="102" width="52" height="22" rx="6" fill="#e2f3e8"/>
+          <rect x="216" y="102" width="52" height="22" rx="6" fill="#ecedf5"/>
+          <!-- connecting dots -->
+          <circle cx="56" cy="136" r="3.5" fill="#ea638c" opacity=".55"/>
+          <circle cx="118" cy="136" r="3.5" fill="#08b2e3" opacity=".55"/>
+          <circle cx="180" cy="136" r="3.5" fill="#57a773" opacity=".55"/>
+          <circle cx="242" cy="136" r="3.5" fill="#484d6d" opacity=".55"/>
+          <line x1="56" y1="136" x2="118" y2="136" stroke="#484d6d" stroke-width="1" opacity=".18"/>
+          <line x1="118" y1="136" x2="180" y2="136" stroke="#484d6d" stroke-width="1" opacity=".18"/>
+          <line x1="180" y1="136" x2="242" y2="136" stroke="#484d6d" stroke-width="1" opacity=".18"/>
+          <!-- color arc -->
+          <path d="M80,205 A70,70 0 0,1 220,205" fill="none" stroke="#ea638c" stroke-width="14" stroke-linecap="round" opacity=".45"/>
+          <path d="M150,135 A70,70 0 0,1 220,205" fill="none" stroke="#08b2e3" stroke-width="14" stroke-linecap="round" opacity=".45"/>
+        </svg>
+        <div class="lens-overlay">
+          <h4>Color &amp; Mood</h4>
+          <p>Editing a photo's palette taught me how color shapes emotion, a lesson I now apply directly to UI color systems and brand design.</p>
+          <span class="lo-tag lo-pink">Visual Storytelling</span>
+        </div>
+      </div>
+
+      <!-- 5. Iteration & Patience -->
+      <div class="lens-tile">
+        <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g5a" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ecedf5"/>
+              <stop offset="100%" stop-color="#e2f3e8"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="220" fill="url(#g5a)"/>
+          <!-- film strip holes top -->
+          <rect x="0" y="0" width="300" height="22" fill="#484d6d" opacity=".08"/>
+          <rect x="0" y="198" width="300" height="22" fill="#484d6d" opacity=".08"/>
+          <circle cx="18" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="46" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="74" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="102" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="130" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="158" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="186" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="214" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="242" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="270" cy="11" r="5" fill="white" opacity=".55"/>
+          <circle cx="18" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="46" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="74" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="102" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="130" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="158" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="186" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="214" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="242" cy="209" r="5" fill="white" opacity=".55"/>
+          <circle cx="270" cy="209" r="5" fill="white" opacity=".55"/>
+          <!-- 3 film frames -->
+          <rect x="12" y="30" width="80" height="158" rx="4" fill="white" opacity=".5"/>
+          <rect x="110" y="30" width="80" height="158" rx="4" fill="white" opacity=".65"/>
+          <rect x="208" y="30" width="80" height="158" rx="4" fill="white" opacity=".82"/>
+          <!-- frame 1: sketch -->
+          <line x1="27" y1="85" x2="77" y2="85" stroke="#484d6d" stroke-width="2" stroke-dasharray="3,4" opacity=".25"/>
+          <line x1="27" y1="102" x2="77" y2="102" stroke="#484d6d" stroke-width="2" stroke-dasharray="3,4" opacity=".25"/>
+          <rect x="27" y="60" width="50" height="16" rx="2" fill="#484d6d" opacity=".1"/>
+          <text x="52" y="134" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#484d6d" opacity=".4">Sketch</text>
+          <!-- frame 2: wireframe -->
+          <rect x="124" y="60" width="52" height="16" rx="3" fill="#08b2e3" opacity=".25"/>
+          <rect x="124" y="83" width="52" height="8" rx="2" fill="#484d6d" opacity=".15"/>
+          <rect x="124" y="97" width="36" height="8" rx="2" fill="#484d6d" opacity=".15"/>
+          <rect x="124" y="112" width="26" height="13" rx="3" fill="#08b2e3" opacity=".3"/>
+          <text x="150" y="160" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" fill="#484d6d" opacity=".4">Wireframe</text>
+          <!-- frame 3: polished -->
+          <rect x="220" y="60" width="56" height="17" rx="5" fill="#ea638c" opacity=".75"/>
+          <rect x="220" y="84" width="56" height="7" rx="2" fill="#484d6d" opacity=".28"/>
+          <rect x="220" y="97" width="38" height="7" rx="2" fill="#484d6d" opacity=".2"/>
+          <rect x="220" y="112" width="28" height="14" rx="6" fill="#ea638c"/>
+          <circle cx="248" cy="143" r="9" fill="#08b2e3" opacity=".3"/>
+          <circle cx="262" cy="140" r="5" fill="#57a773" opacity=".3"/>
+          <text x="248" y="163" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="8" font-weight="700" fill="#484d6d" opacity=".5">Final ✦</text>
+          <!-- arrows -->
+          <text x="100" y="113" text-anchor="middle" font-size="13" fill="#484d6d" opacity=".28">›</text>
+          <text x="198" y="113" text-anchor="middle" font-size="13" fill="#484d6d" opacity=".28">›</text>
+        </svg>
+        <div class="lens-overlay">
+          <h4>Iteration &amp; Patience</h4>
+          <p>Photographers shoot hundreds of frames to find the one. Designers prototype, test, and refine until the experience finally clicks.</p>
+          <span class="lo-tag lo-purple">Design Process</span>
+        </div>
+      </div>
+
+      <!-- 6. Systems & Product Thinking -->
+      <div class="lens-tile">
+        <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g6a" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ecedf5"/>
+              <stop offset="50%" stop-color="#d6f3fc"/>
+              <stop offset="100%" stop-color="#e2f3e8"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="220" fill="url(#g6a)"/>
+          <!-- system node diagram -->
+          <circle cx="150" cy="55" r="12" fill="#08b2e3" opacity=".6"/>
+          <circle cx="88"  cy="120" r="9"  fill="#ea638c" opacity=".55"/>
+          <circle cx="212" cy="120" r="9"  fill="#57a773" opacity=".55"/>
+          <circle cx="150" cy="175" r="13" fill="#484d6d" opacity=".45"/>
+          <!-- connecting lines -->
+          <line x1="150" y1="55"  x2="88"  y2="120" stroke="#484d6d" stroke-width="1.2" opacity=".22"/>
+          <line x1="150" y1="55"  x2="212" y2="120" stroke="#484d6d" stroke-width="1.2" opacity=".22"/>
+          <line x1="88"  y1="120" x2="150" y2="175" stroke="#484d6d" stroke-width="1.2" opacity=".22"/>
+          <line x1="212" y1="120" x2="150" y2="175" stroke="#484d6d" stroke-width="1.2" opacity=".22"/>
+          <line x1="88"  y1="120" x2="212" y2="120" stroke="#484d6d" stroke-width="1" stroke-dasharray="3,4" opacity=".15"/>
+          <!-- node labels -->
+          <text x="150" y="43"  text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="7" font-weight="700" fill="#08b2e3" opacity=".8">UX</text>
+          <text x="68"  y="122" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="7" font-weight="700" fill="#ea638c" opacity=".8">Design</text>
+          <text x="232" y="122" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="7" font-weight="700" fill="#57a773" opacity=".8">Code</text>
+          <text x="150" y="200" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="7" font-weight="700" fill="#484d6d" opacity=".6">Product</text>
+          
+        </svg>
+        <div class="lens-overlay">
+          <h4>Systems &amp; Product Thinking</h4>
+          <p>I bridge photography-inspired observation with structured UX systems, translating visual intuition into scalable, production-ready interfaces.</p>
+          <span class="lo-tag lo-purple">Observe · Structure · Scale</span>
+        </div>
+      </div>
+
+    </div><!-- /lens-grid -->
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="section-eyebrow reveal">Let's Connect</div>
+    <h2 class="section-title reveal">Ready to <em>Build</em><br>Something Great?</h2>
+    <p class="reveal">
+      I'm looking forward to applying my diverse skills and problem-solving ability to develop
+      innovative solutions: front-end, graphics, iOS, or beyond.
+    </p>
+    <a href="mailto:kaunlih03@gmail.com" class="contact-email reveal">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+      kaunlih03@gmail.com
+    </a>
+    <!--<p class="contact-meta reveal">UT Austin · ACC · B.S. Informatics · UX/UI · Chinese Minor</p>-->
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 — Designed &amp; Built with <span>♥</span> and attention to detail.</p>
+  <p>UX/UI Designer • Front-End Engineer</p>
+</footer>
+
+<script>
+  // Cursor
+  const ring = document.getElementById('cursorRing');
+  const dot  = document.getElementById('cursorDot');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function lerp(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(lerp); })();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const idx = Array.from(reveals).indexOf(e.target) % 4;
+        setTimeout(() => e.target.classList.add('visible'), idx * 90);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
